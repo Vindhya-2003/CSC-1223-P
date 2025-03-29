@@ -1,0 +1,5 @@
+LOAD DATA LOCAL INFILE'C:/Users/Asus/Desktop/Day 02 Database/Ex02/data.csv'
+INTO TABLE doctor
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+(id,name,age,grade,city);
