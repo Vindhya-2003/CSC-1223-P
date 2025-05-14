@@ -1,0 +1,236 @@
+MariaDB [company]> CREATE DATABASE Company1;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [company]> use Company1;
+Database changed
+
+MariaDB [Company1]> CREATE TABLE Employee(Emp_ID INT primary key, Emp_Name VARCHAR(20), Emp_Age int, Emp_City VARCHAR(20), working_hours int);
+Query OK, 0 rows affected (0.007 sec)
+
+MariaDB [Company1]> DESC Employee;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| Emp_ID        | int(11)     | NO   | PRI | NULL    |       |
+| Emp_Name      | varchar(20) | YES  |     | NULL    |       |
+| Emp_Age       | int(11)     | YES  |     | NULL    |       |
+| Emp_City      | varchar(20) | YES  |     | NULL    |       |
+| working_hours | int(11)     | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+5 rows in set (0.014 sec)
+
+MariaDB [Company1]> INSERT INTO Employee VALUES
+    -> (101, 'Peter', 32, 'New York', 10),
+    -> (102, 'Mark', 32, 'California', 15),
+    -> (103, 'Donald', 40, 'Arizona', 12),
+    -> (104, 'Obama', 35, 'Florida', 9),
+    -> (105, 'Mathew', 32, 'Georgia', 10),
+    -> (106, 'Kane', 45, 'Alaska', 15),
+    -> (107, 'Adam', 35, 'California', 9),
+    -> (108, 'Macculan', 40, 'Florida', 12)
+    -> ;
+Query OK, 8 rows affected (0.032 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+MariaDB [Company1]> SELECT * FROM Employee;
++--------+----------+---------+------------+---------------+
+| Emp_ID | Emp_Name | Emp_Age | Emp_City   | working_hours |
++--------+----------+---------+------------+---------------+
+|    101 | Peter    |      32 | New York   |            10 |
+|    102 | Mark     |      32 | California |            15 |
+|    103 | Donald   |      40 | Arizona    |            12 |
+|    104 | Obama    |      35 | Florida    |             9 |
+|    105 | Mathew   |      32 | Georgia    |            10 |
+|    106 | Kane     |      45 | Alaska     |            15 |
+|    107 | Adam     |      35 | California |             9 |
+|    108 | Macculan |      40 | Florida    |            12 |
++--------+----------+---------+------------+---------------+
+8 rows in set (0.000 sec)
+
+MariaDB [Company1]> SELECT COUNT(Emp_ID) AS total_number FROM Employee;
++--------------+
+| total_number |
++--------------+
+|            8 |
++--------------+
+1 row in set (0.000 sec)
+
+MariaDB [Company1]> SELECT COUNT(DISTINCT Emp_Age) FROM Employee;
++-------------------------+
+| COUNT(DISTINCT Emp_Age) |
++-------------------------+
+|                       4 |
++-------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [Company1]> SELECT COUNT(Emp_ID) FROM Employee WHERE EMP_Age>32;
++---------------+
+| COUNT(Emp_ID) |
++---------------+
+|             5 |
++---------------+
+1 row in set (0.000 sec)
+
+MariaDB [Company1]> SELECT Emp_City,COUNT(*) AS Count
+    -> FROM Employee
+    -> GROUP BY Emp_City;
++------------+-------+
+| Emp_City   | Count |
++------------+-------+
+| Alaska     |     1 |
+| Arizona    |     1 |
+| California |     2 |
+| Florida    |     2 |
+| Georgia    |     1 |
+| New York   |     1 |
++------------+-------+
+6 rows in set (0.001 sec)
+
+MariaDB [Company1]> SELECT SUM(working_hours) FROM Employee;
++--------------------+
+| SUM(working_hours) |
++--------------------+
+|                 92 |
++--------------------+
+1 row in set (0.000 sec)
+
+MariaDB [Company1]> SELECT SUM(working_hours) FROM Employee WHERE Emp_Name LIKE 'M%';
++--------------------+
+| SUM(working_hours) |
++--------------------+
+|                 37 |
++--------------------+
+1 row in set (0.000 sec)
+
+MariaDB [Company1]> SELECT Emp_Age, SUM(working_hours) FROM Employee
+    -> GROUP BY Emp_Age;
++---------+--------------------+
+| Emp_Age | SUM(working_hours) |
++---------+--------------------+
+|      32 |                 35 |
+|      35 |                 18 |
+|      40 |                 24 |
+|      45 |                 15 |
++---------+--------------------+
+4 rows in set (0.001 sec)
+
+MariaDB [Company1]> SELECT SUM(DISTINCT working_hours) FROM Employee;
++-----------------------------+
+| SUM(DISTINCT working_hours) |
++-----------------------------+
+|                          46 |
++-----------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [Company1]> SELECT AVG(Emp_Age) FROM Employee;
++--------------+
+| AVG(Emp_Age) |
++--------------+
+|      36.3750 |
++--------------+
+1 row in set (0.000 sec)
+
+MariaDB [Company1]> SELECT AVG(working_hours) FROM Employee
+    -> WHERE Emp_City IN ('New York','California','Florida');
++--------------------+
+| AVG(working_hours) |
++--------------------+
+|            11.0000 |
++--------------------+
+1 row in set (0.000 sec)
+
+MariaDB [Company1]> SELECT Emp_Age, AVG(working_hours)
+    -> FROM Employee
+    -> GROUP BY Emp_Age;
++---------+--------------------+
+| Emp_Age | AVG(working_hours) |
++---------+--------------------+
+|      32 |            11.6667 |
+|      35 |             9.0000 |
+|      40 |            12.0000 |
+|      45 |            15.0000 |
++---------+--------------------+
+4 rows in set (0.001 sec)
+
+MariaDB [Company1]> SELECT Emp_Age, COUNT(*) AS Count
+    -> FROM Employee
+    -> GROUP BY Emp_Age
+    -> HAVING COUNT(*)>1;
++---------+-------+
+| Emp_Age | Count |
++---------+-------+
+|      32 |     3 |
+|      35 |     2 |
+|      40 |     2 |
++---------+-------+
+3 rows in set (0.000 sec)
+
+MariaDB [Company1]> SELECT Emp_City, AVG(working_hours)
+    -> FROM Employee
+    -> GROUP BY Emp_City
+    -> HAVING AVG(working_hours)>10;
++------------+--------------------+
+| Emp_City   | AVG(working_hours) |
++------------+--------------------+
+| Alaska     |            15.0000 |
+| Arizona    |            12.0000 |
+| California |            12.0000 |
+| Florida    |            10.5000 |
++------------+--------------------+
+4 rows in set (0.001 sec)
+
+
+MariaDB [Company1]> SELECT MIN(Emp_Age) FROM Employee;
++--------------+
+| MIN(Emp_Age) |
++--------------+
+|           32 |
++--------------+
+1 row in set (0.000 sec)
+
+MariaDB [Company1]> SELECT MAX(Emp_Age) FROM Employee;
++--------------+
+| MAX(Emp_Age) |
++--------------+
+|           45 |
++--------------+
+1 row in set (0.000 sec)
+
+MariaDB [Company1]> SELECT * FROM Employee LIMIT 1;
++--------+----------+---------+----------+---------------+
+| Emp_ID | Emp_Name | Emp_Age | Emp_City | working_hours |
++--------+----------+---------+----------+---------------+
+|    101 | Peter    |      32 | New York |            10 |
++--------+----------+---------+----------+---------------+
+1 row in set (0.000 sec)
+
+MariaDB [Company1]> SELECT * FROM Employee LIMIT 3;
++--------+----------+---------+------------+---------------+
+| Emp_ID | Emp_Name | Emp_Age | Emp_City   | working_hours |
++--------+----------+---------+------------+---------------+
+|    101 | Peter    |      32 | New York   |            10 |
+|    102 | Mark     |      32 | California |            15 |
+|    103 | Donald   |      40 | Arizona    |            12 |
++--------+----------+---------+------------+---------------+
+3 rows in set (0.000 sec)
+
+MariaDB [Company1]> SELECT * FROM Employee
+    -> ORDER BY Emp_ID DESC
+    -> LIMIT 1;
++--------+----------+---------+----------+---------------+
+| Emp_ID | Emp_Name | Emp_Age | Emp_City | working_hours |
++--------+----------+---------+----------+---------------+
+|    108 | Macculan |      40 | Florida  |            12 |
++--------+----------+---------+----------+---------------+
+1 row in set (0.000 sec)
+
+MariaDB [Company1]> SELECT Emp_Name, Emp_ID FROM Employee
+    -> ORDER BY Emp_Name DESC
+    -> LIMIT 1;
++----------+--------+
+| Emp_Name | Emp_ID |
++----------+--------+
+| Peter    |    101 |
++----------+--------+
+1 row in set (0.000 sec)
+
