@@ -1,0 +1,218 @@
+a)
+
+MariaDB [(none)]> create database MovieDB;
+Query OK, 1 row affected (0.001 sec)
+
+MariaDB [(none)]> use MovieDB;
+Database changed
+MariaDB [MovieDB]> CREATE TABLE Movie(Movie_ID INT PRIMARY KEY NOT NULL, Title VARCHAR(30), Category VARCHAR(30), PublicationDate DATE, Director VARCHAR(30), Rating DOUBLE, Minutes DOUBLE);
+Query OK, 0 rows affected (0.008 sec)
+
+MariaDB [MovieDB]> INSERT INTO Movie VALUES
+    -> (1, 'Hotel Transylvania', 'Animation', '2012-09-28', 'Genndy Tartakovsky', 7.0, 91),
+    -> (2, 'Jurassic Park', 'Adventure', '1993-06-11', 'Steven Spielberg', 8.2 , 127),
+    -> (3, 'Home Alone', 'Family', '1990-11-16', 'Chris Columbus', 7.7, 103),
+    -> (4, 'Hugo ', 'Drama', '2011-11-23', 'Martin Scorsese', 7.5, 126),
+    -> (5, '3 Idiots', 'Comedy', '2009-12-25', 'Rajkumar Hirani', 8.4, 170),
+    -> (6, 'The Avengers', 'Sci-Fi', '2012-05-04', 'Joss Whedon', 8.0, 143),
+    -> (7, 'Avatar', 'Adventure', '2009-12-18', 'James Cameron', 7.9, 162),
+    -> (8, 'Luca', 'Animation', ' 2021-06-18', 'Enrico Casarosa', 7.4, 95),
+    -> (9, 'The Dark Knight', 'Drama', '2008-07-18', 'Christopher Nolan', 9.0, 152),
+    -> (10, 'Titanic', 'Romance', '1997-12-19', 'James Cameron', 7.9, 195);
+Query OK, 10 rows affected (0.037 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+b)
+
+i)
+MariaDB [MovieDB]> DESC movie;
++-----------------+-------------+------+-----+---------+-------+
+| Field           | Type        | Null | Key | Default | Extra |
++-----------------+-------------+------+-----+---------+-------+
+| Movie_ID        | int(11)     | NO   | PRI | NULL    |       |
+| Title           | varchar(30) | YES  |     | NULL    |       |
+| Category        | varchar(30) | YES  |     | NULL    |       |
+| PublicationDate | date        | YES  |     | NULL    |       |
+| Director        | varchar(30) | YES  |     | NULL    |       |
+| Rating          | double      | YES  |     | NULL    |       |
+| Minutes         | double      | YES  |     | NULL    |       |
++-----------------+-------------+------+-----+---------+-------+
+7 rows in set (0.012 sec)
+
+ii)
+MariaDB [MovieDB]> SELECT * FRom Movie;
++----------+--------------------+-----------+-----------------+--------------------+--------+---------+
+| Movie_ID | Title              | Category  | PublicationDate | Director           | Rating | Minutes |
++----------+--------------------+-----------+-----------------+--------------------+--------+---------+
+|        1 | Hotel Transylvania | Animation | 2012-09-28      | Genndy Tartakovsky |      7 |      91 |
+|        2 | Jurassic Park      | Adventure | 1993-06-11      | Steven Spielberg   |    8.2 |     127 |
+|        3 | Home Alone         | Family    | 1990-11-16      | Chris Columbus     |    7.7 |     103 |
+|        4 | Hugo               | Drama     | 2011-11-23      | Martin Scorsese    |    7.5 |     126 |
+|        5 | 3 Idiots           | Comedy    | 2009-12-25      | Rajkumar Hirani    |    8.4 |     170 |
+|        6 | The Avengers       | Sci-Fi    | 2012-05-04      | Joss Whedon        |      8 |     143 |
+|        7 | Avatar             | Adventure | 2009-12-18      | James Cameron      |    7.9 |     162 |
+|        8 | Luca               | Animation | 2021-06-18      | Enrico Casarosa    |    7.4 |      95 |
+|        9 | The Dark Knight    | Drama     | 2008-07-18      | Christopher Nolan  |      9 |     152 |
+|       10 | Titanic            | Romance   | 1997-12-19      | James Cameron      |    7.9 |     195 |
++----------+--------------------+-----------+-----------------+--------------------+--------+---------+
+10 rows in set (0.000 sec)
+
+iii)
+MariaDB [MovieDB]> SELECT Title, Category FROM Movie;
++--------------------+-----------+
+| Title              | Category  |
++--------------------+-----------+
+| Hotel Transylvania | Animation |
+| Jurassic Park      | Adventure |
+| Home Alone         | Family    |
+| Hugo               | Drama     |
+| 3 Idiots           | Comedy    |
+| The Avengers       | Sci-Fi    |
+| Avatar             | Adventure |
+| Luca               | Animation |
+| The Dark Knight    | Drama     |
+| Titanic            | Romance   |
++--------------------+-----------+
+10 rows in set (0.000 sec)
+
+iv)
+MariaDB [MovieDB]> SELECT DISTINCT Director FROM Movie;
++--------------------+
+| Director           |
++--------------------+
+| Genndy Tartakovsky |
+| Steven Spielberg   |
+| Chris Columbus     |
+| Martin Scorsese    |
+| Rajkumar Hirani    |
+| Joss Whedon        |
+| James Cameron      |
+| Enrico Casarosa    |
+| Christopher Nolan  |
++--------------------+
+9 rows in set (0.000 sec)
+
+v)
+MariaDB [MovieDB]> SELECT Title, Rating FROM Movie WHERE Rating>7.5;
++-----------------+--------+
+| Title           | Rating |
++-----------------+--------+
+| Jurassic Park   |    8.2 |
+| Home Alone      |    7.7 |
+| 3 Idiots        |    8.4 |
+| The Avengers    |      8 |
+| Avatar          |    7.9 |
+| The Dark Knight |      9 |
+| Titanic         |    7.9 |
++-----------------+--------+
+7 rows in set (0.000 sec)
+
+vi)
+MariaDB [MovieDB]> SELECT AVG(Minutes) AS AVG_Minutes FROM Movie;
++-------------+
+| AVG_Minutes |
++-------------+
+|       136.4 |
++-------------+
+1 row in set (0.000 sec)
+
+vii)
+MariaDB [MovieDB]> UPDATE Movie
+    -> SET Category='Action'
+    -> WHERE Movie_ID=9;
+Query OK, 1 row affected (0.004 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [MovieDB]> SELECT * FROM Movie;
++----------+--------------------+-----------+-----------------+--------------------+--------+---------+
+| Movie_ID | Title              | Category  | PublicationDate | Director           | Rating | Minutes |
++----------+--------------------+-----------+-----------------+--------------------+--------+---------+
+|        1 | Hotel Transylvania | Animation | 2012-09-28      | Genndy Tartakovsky |      7 |      91 |
+|        2 | Jurassic Park      | Adventure | 1993-06-11      | Steven Spielberg   |    8.2 |     127 |
+|        3 | Home Alone         | Family    | 1990-11-16      | Chris Columbus     |    7.7 |     103 |
+|        4 | Hugo               | Drama     | 2011-11-23      | Martin Scorsese    |    7.5 |     126 |
+|        5 | 3 Idiots           | Comedy    | 2009-12-25      | Rajkumar Hirani    |    8.4 |     170 |
+|        6 | The Avengers       | Sci-Fi    | 2012-05-04      | Joss Whedon        |      8 |     143 |
+|        7 | Avatar             | Adventure | 2009-12-18      | James Cameron      |    7.9 |     162 |
+|        8 | Luca               | Animation | 2021-06-18      | Enrico Casarosa    |    7.4 |      95 |
+|        9 | The Dark Knight    | Action    | 2008-07-18      | Christopher Nolan  |      9 |     152 |
+|       10 | Titanic            | Romance   | 1997-12-19      | James Cameron      |    7.9 |     195 |
++----------+--------------------+-----------+-----------------+--------------------+--------+---------+
+10 rows in set (0.000 sec)
+
+viii)
+MariaDB [MovieDB]> SELECT Title, year(publicationDate) AS Year
+    -> FROM Movie
+    -> WHERE Director='James Cameron';
++---------+------+
+| Title   | Year |
++---------+------+
+| Avatar  | 2009 |
+| Titanic | 1997 |
++---------+------+
+2 rows in set (0.000 sec)
+
+ix)
+MariaDB [MovieDB]> SELECT SUM(Minutes)
+    -> FROM Movie
+    -> WHERE Title LIKE '%e%';
++--------------+
+| SUM(Minutes) |
++--------------+
+|          489 |
++--------------+
+1 row in set (0.000 sec)
+
+x)
+MariaDB [MovieDB]> SELECT Movie_ID, publicationDate
+    -> FROM Movie
+    -> WHERE Rating BETWEEN 7.2 AND 8.2;
++----------+-----------------+
+| Movie_ID | publicationDate |
++----------+-----------------+
+|        2 | 1993-06-11      |
+|        3 | 1990-11-16      |
+|        4 | 2011-11-23      |
+|        6 | 2012-05-04      |
+|        7 | 2009-12-18      |
+|        8 | 2021-06-18      |
+|       10 | 1997-12-19      |
++----------+-----------------+
+7 rows in set (0.000 sec)
+
+xi)
+MariaDB [MovieDB]> SELECT MAX(Rating), Category
+    -> FROM Movie
+    -> GROUP BY Category
+    -> ORDER BY MAX(Rating) DESC;
++-------------+-----------+
+| MAX(Rating) | Category  |
++-------------+-----------+
+|           9 | Action    |
+|         8.4 | Comedy    |
+|         8.2 | Adventure |
+|           8 | Sci-Fi    |
+|         7.9 | Romance   |
+|         7.7 | Family    |
+|         7.5 | Drama     |
+|         7.4 | Animation |
++-------------+-----------+
+8 rows in set (0.001 sec)
+
+xii)
+MariaDB [MovieDB]> SELECT CONCAT(Title,'-',year(publicationDate)) AS Movie_Year FROM Movie;
++-------------------------+
+| Movie_Year              |
++-------------------------+
+| Hotel Transylvania-2012 |
+| Jurassic Park-1993      |
+| Home Alone-1990         |
+| Hugo -2011              |
+| 3 Idiots-2009           |
+| The Avengers-2012       |
+| Avatar-2009             |
+| Luca-2021               |
+| The Dark Knight-2008    |
+| Titanic-1997            |
++-------------------------+
+10 rows in set (0.000 sec)
